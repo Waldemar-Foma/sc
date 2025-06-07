@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О команде | SkillScout</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="{{ url_for('main.index') }}" class="logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="SkillScout">
+                    <span>SkillScout</span>
+                </a>
+
+                <button class="menu-toggle" id="mobile-menu-toggle" aria-expanded="false" aria-label="Меню">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="nav" id="main-nav">
+                    <ul class="nav-menu">
+                        <li><a href="{{ url_for('main.index') }}#home">Главная</a></li>
+                        <li><a href="{{ url_for('main.index') }}#features">Возможности</a></li>
+                        <li><a href="{{ url_for('main.index') }}#how-it-works">Как это работает</a></li>
+                        <li><a href="{{ url_for('main.about') }}">О проекте</a></li>
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('main.questionnaire') }}">Анкета</a></li>
+                            <li><a href="{{ url_for(current_user.role + '.profile') }}">Профиль</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
+                <div class="header-actions">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline btn-sm">Выйти</a>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline btn-sm">Вход</a>
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-sm">Регистрация</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main style="margin-top: 80px;">
+        <!-- Секция о команде -->
+        <section class="about-section light-bg">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i> Команда <span-a>AXL</span-a>
+                </h2>
+                <div class="team-container">
+                    <div id="team" class="team-grid">
+                        <!-- Карточки команды будут вставлены сюда через JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Секция о проекте -->
+        <section class="about-section white-bg project-description">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-lightbulb"></i> О проекте
+                </h2>
+                <div class="project-content">
+                    <div class="project-text">
+                        <p>SkillScout — это инновационная платформа для подбора персонала нового поколения, использующая искусственный интеллект для анализа видеоинтервью, речи и поведения кандидатов.</p>
+                        <p>Наша технология оценивает не только профессиональные навыки, но и soft skills, психологические особенности и культурное соответствие компании. Мы используем передовые алгоритмы анализа данных, включая построение графов взаимосвязей между характеристиками кандидатов.</p>
+                        
+                        <div class="code-visualization">
+                            <div class="code-block-container">
+                               <div class="code-label">
+                                    <i class="fas fa-code"></i> Пример кода анализа
+                                </div>
+                                <div class="code-block-wrapper">
+                                    <div class="code-block">
+<pre><code>import networkx as nx
+import matplotlib.pyplot as plt
+
+# Создаем граф характеристик кандидата
+G = nx.DiGraph()
+
+# Добавляем основные узлы
+G.add_nodes_from([
+    ('Кандидат', {'size': 1000}),
+    ('Профессиональные навыки', {'color': '#4285F4'}),
+    ('Soft Skills', {'color': '#34A853'}),
+    ('Культурное соответствие', {'color': '#EA4335'})
+])
+
+# Добавляем связи
+G.add_edges_from([
+    ('Кандидат', 'Профессиональные навыки', {'weight': 0.8}),
+    ('Кандидат', 'Soft Skills', {'weight': 0.9}),
+    ('Кандидат', 'Культурное соответствие', {'weight': 0.7}),
+    ('Профессиональные навыки', 'Python', {'weight': 0.6}),
+    ('Профессиональные навыки', 'SQL', {'weight': 0.5}),
+    ('Soft Skills', 'Коммуникация', {'weight': 0.7}),
+    ('Soft Skills', 'Работа в команде', {'weight': 0.8})
+])
+
+# Визуализация графа
+pos = nx.spring_layout(G, k=0.5)
+nx.draw(G, pos, with_labels=True, node_size=[v['size'] for v in G.nodes.values()],
+        node_color=[v.get('color', '#FFC107') for v in G.nodes.values()],
+        font_color='white', edge_color='gray', width=1.5,
+        arrowsize=20, font_size=10)
+
+plt.title("Граф характеристик кандидата", color='white')
+plt.gca().set_facecolor('#1f1c2c')
+plt.show()</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="graph-visualization">
+                                <canvas id="skillsGraph"></canvas>
+                            </div>
+                            
+                        </div>
+                <div class="tech-advantages">
+            <div class="advantage-item animate-item" style="animation-delay: 0.1s">
+        <div class="advantage-icon">
+            <i class="fas fa-brain"></i>
+        </div>
+        <h3>Глубокий анализ</h3>
+        <p>Наш ИИ анализирует 42 параметра поведения, речи и мимики кандидата, выявляя даже скрытые таланты</p>
+    </div>
+    
+    <div class="advantage-item animate-item" style="animation-delay: 0.3s">
+        <div class="advantage-icon">
+            <i class="fas fa-bolt"></i>
+        </div>
+        <h3>Мгновенные результаты</h3>
+        <p>Полная аналитика по кандидату формируется всего за 15 минут после завершения интервью</p>
+    </div>
+    
+    <div class="advantage-item animate-item" style="animation-delay: 0.5s">
+        <div class="advantage-icon">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3>Объективность</h3>
+        <p>Исключаем человеческий фактор и бессознательную предвзятость при оценке кандидатов</p>
+    </div>
+</div>
+
+                        <p style="color: var(--dark-2);">Мы стремимся сделать процесс найма более объективным, эффективным и человекоориентированным, сокращая время подбора на 70% по сравнению с традиционными методами.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item animate-item" style="animation-delay: 0.2s">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="stat1">0</div>
+                            <div class="stat-label">Успешных наймов</div>
+                        </div>
+                    </div>
+                    <div class="stat-item animate-item" style="animation-delay: 0.4s">
+                        <div class="stat-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="stat2">0</div>
+                            <div class="stat-label">Компаний-партнеров</div>
+                        </div>
+                    </div>
+                    <div class="stat-item animate-item" style="animation-delay: 0.6s">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="stat3">0</div>
+                            <div class="stat-label">Анализируемых параметров</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Секция планов развития -->
+        <section class="about-section light-bg roadmap">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-rocket"></i> Планы развития
+                </h2>
+                <div class="roadmap-container">
+                    <div class="roadmap-line"></div>
+                    
+                    <div class="roadmap-item animate-item" style="animation-delay: 0.2s">
+                        <div class="roadmap-date">
+                            <i class="fas fa-calendar-alt"></i> Q3 2025
+                        </div>
+                        <h3 class="roadmap-title">Мобильное приложение</h3>
+                        <p class="roadmap-description">
+                            Запуск мобильных приложений для iOS и Android с полным функционалом платформы, включая проведение и анализ интервью прямо с телефона.
+                        </p>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Прогресс:</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 15%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-item animate-item" style="animation-delay: 0.4s">
+                        <div class="roadmap-date">
+                            <i class="fas fa-calendar-alt"></i> Q4 2025
+                        </div>
+                        <h3 class="roadmap-title">Интеграция с Telegram</h3>
+                        <p class="roadmap-description">
+                            Возможность получения дополнительной информации через тг-бота.
+                        </p>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Прогресс:</span>
+                                <span>30%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 30%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-item animate-item" style="animation-delay: 0.6s">
+                        <div class="roadmap-date">
+                            <i class="fas fa-calendar-alt"></i> Q1 2026
+                        </div>
+                        <h3 class="roadmap-title">AI-помощник для работодателя</h3>
+                        <p class="roadmap-description">
+                            Умный ассистент, который поможет формулировать вакансии, подбирать вопросы для интервью и давать рекомендации по найму.
+                        </p>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Прогресс:</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 15%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-item animate-item" style="animation-delay: 0.8s">
+                        <div class="roadmap-date">
+                            <i class="fas fa-calendar-alt"></i> Q2 2026
+                        </div>
+                        <h3 class="roadmap-title">Геймификация и награды</h3>
+                        <p class="roadmap-description">
+                            Введение системы достижений и наград для кандидатов, делающее процесс найма более увлекательным и мотивирующим.
+                        </p>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Прогресс:</span>
+                                <span>5%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 5%"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="roadmap-item animate-item" style="animation-delay: 1.0s">
+                        <div class="roadmap-date">
+                            <i class="fas fa-calendar-alt"></i> Q2 2026
+                        </div>
+                        <h3 class="roadmap-title">Геймификация (kids)</h3>
+                        <p class="roadmap-description">
+                            Создание системы развивающих тестов для детей, которые помогут ему определиться с будующей профессией.
+                        </p>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Прогресс:</span>
+                                <span>2%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 2%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-header">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="SkillScout" class="footer-logo">
+                <span class="footer-logo-text">SkillScout</span>
+            </div>
+
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h5 class="footer-title">МЕНЮ</h5>
+                    <ul class="footer-menu">
+                        <li>
+                            <a href="{{ url_for('main.index') }}" class="footer-link">
+                                <img src="{{ url_for('static', filename='images/arrow_icon.png') }}" alt="Arrow" class="menu-arrow"> ГЛАВНАЯ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('main.index') }}" class="footer-link">
+                                <img src="{{ url_for('static', filename='images/arrow_icon.png') }}" alt="Arrow" class="menu-arrow"> ЧТО ТАКОЕ SKILLSCOUT?
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('main.index') }}" class="footer-link">
+                                <img src="{{ url_for('static', filename='images/arrow_icon.png') }}" alt="Arrow" class="menu-arrow"> УСЛУГИ И ВОЗМОЖНОСТИ
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h5 class="footer-title">МЫ В СОЦИАЛЬНЫХ СЕТЯХ</h5>
+                    <div class="social-circles">
+                        <a href="https://t.me/axel_Invincible" class="social-circle">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="https://vk.com/axl_invincible" class="social-circle">
+                            <i class="fab fa-vk"></i>
+                        </a>
+                        <a href="#" class="social-circle">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h5 class="support-title">ТЕХНИЧЕСКАЯ ПОДДЕРЖКА</h5>
+                    <h4 class="support-email">
+                        <span id="supportEmailText" onclick="copyEmail()" style="cursor: pointer;">AXL-TECH@BK.RU</span>
+                    </h4>
+                    <div id="copyOverlay" class="overlay">
+                        <div class="overlay-content">
+                            <span class="overlay-text">Email скопирован в буфер обмена!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <a href="{{ url_for('main.tou') }}" class="document-link">Пользовательское соглашение</a>
+                </div>
+                <div class="footer-bottom-center">
+                    <a href="{{ url_for('main.politica') }}" class="document-link">Политика конфиденциальности</a>
+                </div>
+                <div class="footer-bottom-right">
+                    <p class="copyright">2025 © SkillScout</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Анимация статистики
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                obj.innerHTML = value.toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+        
+        // Загрузка команды
+        document.addEventListener("DOMContentLoaded", () => {
+            // Анимация статистики
+            animateValue("stat1", 0, 1243, 1500);
+            animateValue("stat2", 0, 87, 1500);
+            animateValue("stat3", 0, 42, 1500);
+            
+            // Загрузка данных команды
+            fetch('{{ url_for("static", filename="data/team.json") }}')
+                .then(res => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.json();
+                })
+                .then(data => {
+                    const container = document.getElementById('team');
+                    container.innerHTML = data.map((member, index) => `
+                        <div class="team-member animate-item" style="animation-delay: ${0.1 * index}s">
+                            <div class="member-photo-container">
+                                <img src="/static/images/team/${member.photo}" alt="${member.name}" loading="lazy">
+                                <div class="photo-frame"></div>
+                                <div class="social-links">
+                                    ${member.linkedin ? `<a href="${member.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>` : ''}
+                                    ${member.github ? `<a href="${member.github}" target="_blank"><i class="fab fa-github"></i></a>` : ''}
+                                    ${member.telegram ? `<a href="${member.telegram}" target="_blank"><i class="fab fa-telegram"></i></a>` : ''}
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">${member.name}</h3>
+                                <p class="member-role">${member.role}</p>
+                                <p class="member-bio">${member.bio}</p>
+                                <div class="member-skills">
+                                    ${member.skills ? member.skills.map(skill => 
+                                        `<span class="skill-tag">${skill}</span>`
+                                    ).join('') : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                })
+                .catch(error => {
+                    console.error('Error loading team data:', error);
+                    document.getElementById('team').innerHTML = `
+                        <div class="error-message">
+                            Не удалось загрузить информацию о команде. Пожалуйста, попробуйте позже.
+                        </div>
+                    `;
+                });
+            
+            // Анимация появления элементов при скролле
+            const animateItems = document.querySelectorAll('.animate-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateItems.forEach(item => {
+                observer.observe(item);
+            });
+
+            // Инициализация графа навыков
+            const ctx = document.getElementById('skillsGraph').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Профессиональные навыки', 'Soft Skills', 'Культурное соответствие', 'Технические знания', 'Опыт работы', 'Образование'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 7, 3],
+                        backgroundColor: [
+                            '#4285F4',
+                            '#34A853',
+                            '#EA4335',
+                            '#FBBC05',
+                            '#673AB7',
+                            '#9C27B0'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#333',
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                    size: 12
+                                },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            bodyFont: {
+                                family: "'Inter', sans-serif",
+                                size: 12
+                            },
+                            titleFont: {
+                                family: "'Inter', sans-serif",
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    cutout: '65%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+
+            // Переключение видимости кода
+            document.querySelector('.code-toggle').addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                const wrapper = this.nextElementSibling;
+                
+                if (wrapper.style.maxHeight) {
+                    wrapper.style.maxHeight = null;
+                    icon.style.transform = 'rotate(deg)';
+                } else {
+                    wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        function copyEmail() {
+            const email = document.getElementById('supportEmailText').textContent;
+            navigator.clipboard.writeText(email).then(() => {
+                const overlay = document.getElementById('copyOverlay');
+                overlay.style.display = 'flex';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const nav = document.getElementById('main-nav');
+
+    menuToggle.addEventListener('click', function () {
+        this.classList.toggle('active');
+        nav.classList.toggle('active');
+        document.body.classList.toggle('menu-open');
+
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', !isExpanded);
+        nav.setAttribute('aria-hidden', isExpanded);
+    });
+
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            menuToggle.classList.remove('active');
+            nav.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            nav.setAttribute('aria-hidden', 'true');
+        });
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!menuToggle.contains(e.target) && !nav.contains(e.target)) {
+            menuToggle.classList.remove('active');
+            nav.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            nav.setAttribute('aria-hidden', 'true');
+        }
+    });
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Услуги | SkillScout{% endblock %}
+
+{% block content %}
+<section class="services-hero">
+    <div class="container">
+        <h1>Наши услуги</h1>
+        <p class="lead">Полный спектр решений для подбора персонала нового поколения</p>
+    </div>
+</section>
+
+<section class="services-section">
+    <div class="container">
+        <div class="services-tabs">
+            <button class="tab-btn active" data-tab="candidates" aria-selected="true">Для кандидатов</button>
+            <button class="tab-btn" data-tab="employers" aria-selected="false">Для работодателей</button>
+        </div>
+        
+        <div class="services-content">
+            <div id="candidates" class="tab-content active" role="tabpanel">
+                <div class="services-grid">
+                    {% for service in candidate_services %}
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="{{ service.icon }}"></i>
+                        </div>
+                        <h3>{{ service.title }}</h3>
+                        <p>{{ service.description }}</p>
+                        <a href="{{ service.link }}" class="service-link">Подробнее →</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div id="employers" class="tab-content" role="tabpanel" hidden>
+                <div class="services-grid">
+                    {% for service in employer_services %}
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="{{ service.icon }}"></i>
+                        </div>
+                        <h3>{{ service.title }}</h3>
+                        <p>{{ service.description }}</p>
+                        <a href="{{ service.link }}" class="service-link">Подробнее →</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Удаляем активные классы
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(c => {
+                c.classList.remove('active');
+                c.hidden = true;
+            });
+            
+            // Добавляем активные классы
+            this.classList.add('active');
+            this.setAttribute('aria-selected', 'true');
+            
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById(tabId).hidden = false;
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

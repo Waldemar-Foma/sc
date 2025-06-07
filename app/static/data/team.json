@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Фоменко Владислав",
+        "role": "Fullstack - разработчик, дизайнер",
+        "bio": "Специалист по Python, веб разработке, JS..",
+        "photo": "vlad.png",
+        "github": "https://github.com/...",
+        "telegram": "https://t.me/...",
+        "skills": ["JavaScript", "Python", "Java", "CSS", "HTML"]
+    },
+    {
+        "name": "Устинов Макс",
+        "role": "Менеджер, тестировщик",
+        "bio": "Занимается планированием на всех этапах развития проекта и следит за его реализацией",
+        "photo": "max.png",
+        "github": "https://github.com/...",
+        "telegram": "https://t.me/...",
+        "skills": ["Figma", "HTML", "Python", "CSS"]
+    }
+]
